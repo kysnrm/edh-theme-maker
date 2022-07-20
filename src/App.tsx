@@ -23,7 +23,10 @@ const App = () => {
         .then((res) => res.json())
         .then((data) => {
           console.log(data.type_line);
-          if (!data.type_line.includes("Creature")) {
+          if (
+            !data.type_line.includes("Creature") &&
+            !data.oracle_text.includes("can be your commander.")
+          ) {
             fetchRandomLegendary();
             return;
           }
