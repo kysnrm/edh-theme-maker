@@ -22,11 +22,13 @@ const App = () => {
       await fetch(randomLegendaryUrl, { method: "GET" })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data.type_line);
-          if (
-            !data.type_line.includes("Creature") &&
-            !data.oracle_text.includes("can be your commander.")
-          ) {
+          const splitTypeLine = data?.type_line.split("//");
+          const isLegendaryCreature =
+            splitTypeLine[0]?.includes("Legendary Creature");
+          const canBeCommander =
+            data.oracle_text &&
+            data.oracle_text.includes("can be your commander.");
+          if (!isLegendaryCreature && !canBeCommander) {
             fetchRandomLegendary();
             return;
           }
