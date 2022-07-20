@@ -14,7 +14,7 @@ const App = () => {
     const baseUrl = "https://api.scryfall.com/cards/random";
 
     const randomLegendaryParams = new URLSearchParams({
-      q: "t:legend",
+      q: "is:commander f:commander",
     }).toString();
     const randomLegendaryUrl = `${baseUrl}?${randomLegendaryParams}`;
 
@@ -22,16 +22,6 @@ const App = () => {
       await fetch(randomLegendaryUrl, { method: "GET" })
         .then((res) => res.json())
         .then((data) => {
-          const splitTypeLine = data?.type_line.split("//");
-          const isLegendaryCreature =
-            splitTypeLine[0]?.includes("Legendary Creature");
-          const canBeCommander =
-            data.oracle_text &&
-            data.oracle_text.includes("can be your commander.");
-          if (!isLegendaryCreature && !canBeCommander) {
-            fetchRandomLegendary();
-            return;
-          }
           const name = data.name;
           const img = data.image_uris.normal;
           setCommander({ name, img });
