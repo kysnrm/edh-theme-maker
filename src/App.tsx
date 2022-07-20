@@ -10,25 +10,29 @@ interface Card {
 const App = () => {
   const [commander, setCommander] = useState<Card | null>();
 
-  const fetchLegendary = async () => {
+  const fetchCommander = async () => {
     const baseUrl = "https://api.scryfall.com/cards/random";
 
     const randomLegendaryParams = new URLSearchParams({
-      q: "t:legend",
+      q: "is:commander f:commander",
     }).toString();
     const randomLegendaryUrl = `${baseUrl}?${randomLegendaryParams}`;
 
-    await fetch(randomLegendaryUrl, { method: "GET" })
-      .then((res) => res.json())
-      .then((data) => {
-        const name = data.name;
-        const img = data.image_uris.normal;
-        setCommander({ name, img });
-      });
+    const fetchRandomLegendary = async () => {
+      await fetch(randomLegendaryUrl, { method: "GET" })
+        .then((res) => res.json())
+        .then((data) => {
+          const name = data.name;
+          const img = data.image_uris.normal;
+          setCommander({ name, img });
+        });
+    };
+
+    await fetchRandomLegendary();
   };
   return (
     <div className="App">
-      <button onClick={() => fetchLegendary()}>お題を見る</button>
+      <button onClick={() => fetchCommander()}>お題を見る</button>
       {commander && (
         <div>
           <div>{commander.name}</div>
