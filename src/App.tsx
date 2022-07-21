@@ -30,21 +30,28 @@ const App = () => {
             const partnerName = data.oracle_text.match(
               /(?<=Partner\swith\s)(.+?)(\s\(|\n)/
             )[1];
-            console.log(partnerName);
             fetchPartnerWith(partnerName);
           } else if (data.keywords.includes("Partner")) {
-            fetchPartner();
+            fetchPartner(name);
           } else setPartner(null);
+          if (data.oracle_text.includes("Friends forever")) {
+            fetchPartner(name, true);
+          }
           setCommander({ name, img });
         });
     };
 
-    const randomPartnerParams = new URLSearchParams({
-      q: "is:commander f:commander keyword:partner -keyword:'partner with'",
-    }).toString();
+    const randomPartnerParams = (name: string, isFriend: boolean = false) =>
+      new URLSearchParams({
+        q: `is:commander f:commander ${
+          isFriend ? "o:'Friends forever'" : "keyword:partner "
+        }-keyword:'partner with' -'${name}'`,
+      }).toString();
 
-    const fetchPartner = async () => {
-      await fetch(`${baseUrl}random?${randomPartnerParams}`, { method: "GET" })
+    const fetchPartner = async (name: string, isFriend: boolean = false) => {
+      await fetch(`${baseUrl}random?${randomPartnerParams(name, isFriend)}`, {
+        method: "GET",
+      })
         .then((res) => res.json())
         .then((data) => {
           const name = data.name;
