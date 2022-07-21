@@ -21,13 +21,17 @@ const App = () => {
     }).toString();
 
     const fetchRandomLegendary = async () => {
+      setCommander(null);
+      setPartner(null);
       await fetch(`${baseUrl}random?${randomLegendaryParams}`, {
         method: "GET",
       })
         .then((res) => res.json())
         .then((data) => {
           const name = data.name;
-          const img = data.image_uris.normal;
+          const img = data.image_uris
+            ? data.image_uris.normal
+            : data.card_faces[0].image_uris.normal;
 
           setCommander({ name, img });
 
@@ -37,14 +41,19 @@ const App = () => {
             )[1];
             fetchPartnerWith(partnerName);
             return;
-          } else if (data.keywords.includes("Partner")) {
+          }
+          if (data.keywords.includes("Partner")) {
             fetchPartner(name, "partner");
             return;
-          } else if (data.oracle_text.includes("Friends forever")) {
+          }
+          if (data.oracle_text.includes("Friends forever")) {
             fetchPartner(name, "friend");
-          } else if (data.oracle_text.includes("Choose a Background")) {
+            return;
+          }
+          if (data.oracle_text.includes("Choose a Background")) {
             fetchPartner(name, "bg");
-          } else setPartner(null);
+            return;
+          }
         });
     };
 
