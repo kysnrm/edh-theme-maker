@@ -104,21 +104,29 @@ const App = () => {
   };
   return (
     <div className="App">
-      <button onClick={() => fetchCommander()}>お題を見る</button>
-      <div style={{ display: "flex" }}>
+      <header>
+        <h1>統率者ガチャ</h1>
+        <section className="description">
+          <span>「何か新しいデッキを組みたいけどアイデアがない」</span>
+          <span>
+            <span>そんなあなたに統率者ガチャ。</span>
+            <span>ランダムな統率者をあなたに提案します。</span>
+          </span>
+        </section>
+        <button onClick={() => fetchCommander()}>お題を見る</button>
+      </header>
+      <section className="result-img">
         {commander && (
-          <div>
-            <div>{commander.name}</div>
+          <div className="result-img-child">
             <img src={commander.img} alt="" />
           </div>
         )}
         {partner && (
-          <div>
-            <div>{partner.name}</div>
+          <div className="result-img-child">
             <img src={partner.img} alt="" />
           </div>
         )}
-      </div>
+      </section>
     </div>
   );
 };
