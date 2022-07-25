@@ -113,7 +113,7 @@ const App = () => {
             <span>ランダムな統率者をあなたに提案します。</span>
           </span>
         </section>
-        <button onClick={() => fetchCommander()}>お題を見る</button>
+        <button onClick={() => fetchCommander()}>ガチャを回す</button>
       </header>
       <section className="result-img">
         {commander && (

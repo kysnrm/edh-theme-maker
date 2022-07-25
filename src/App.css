@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 16px;
 }
 
@@ -14,8 +17,13 @@
 .result-img {
   margin-top: 16px;
   display: flex;
-  max-width: 100%;
+  width: 100%;
+  max-width: 960px;
   justify-content: center;
+}
+
+.result-img-child {
+  width: calc(50% - 4px);
 }
 
 .result-img-child + .result-img-child {
