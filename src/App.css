@@ -6,6 +6,39 @@
   padding: 16px;
 }
 
+.button {
+  font-size: 16px;
+  font-weight: 700;
+  padding: 8px 16px;
+  background-color: #0b4e96;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+}
+
+.button:hover {
+  cursor: pointer;
+  background-color: #002b59;
+}
+
+.button.twitter {
+  background-color: #1d9bf0;
+}
+
+.button:disabled {
+  cursor: default;
+  opacity: 0.3;
+}
+
+.button:disabled:hover {
+  background-color: #1d9bf0;
+}
+
+.title {
+  line-height: 1;
+  margin: 0 0 16px 0;
+}
+
 .description {
   margin-bottom: 16px;
 }
@@ -15,7 +48,7 @@
 }
 
 .result-img {
-  margin-top: 16px;
+  margin: 16px 0;
   display: flex;
   width: 100%;
   max-width: 960px;
@@ -24,6 +57,10 @@
 
 .result-img-child {
   width: calc(50% - 4px);
+  aspect-ratio: 61/85;
+  line-height: 0;
+  background-color: #ddd;
+  border-radius: 4.75% / 3.5%;
 }
 
 .result-img-child + .result-img-child {

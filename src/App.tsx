@@ -12,6 +12,7 @@ type Mode = "partner" | "friend" | "bg";
 const App = () => {
   const [commander, setCommander] = useState<Card | null>();
   const [partner, setPartner] = useState<Card | null>();
+  const [isFetching, setIsFetching] = useState<boolean>(false);
 
   const fetchCommander = async () => {
     const baseUrl = "https://api.scryfall.com/cards/";
@@ -23,6 +24,7 @@ const App = () => {
     const fetchRandomLegendary = async () => {
       setCommander(null);
       setPartner(null);
+      setIsFetching(true);
       await fetch(`${baseUrl}random?${randomLegendaryParams}`, {
         method: "GET",
       })
@@ -55,6 +57,7 @@ const App = () => {
             return;
           }
         });
+      setIsFetching(false);
     };
 
     const randomPartnerParams = (name: string, mode: Mode) => {
@@ -105,28 +108,34 @@ const App = () => {
   return (
     <div className="App">
       <header>
-        <h1>統率者ガチャ</h1>
+        <h1 className="title">統率者ガチャ</h1>
         <section className="description">
-          <span>「何か新しいデッキを組みたいけどアイデアがない」</span>
-          <span>
-            <span>そんなあなたに統率者ガチャ。</span>
-            <span>ランダムな統率者をあなたに提案します。</span>
-          </span>
+          <span>ランダムに統率者を表示します。</span>
         </section>
-        <button onClick={() => fetchCommander()}>ガチャを回す</button>
+        <button className="button" onClick={() => fetchCommander()}>
+          ガチャを回す
+        </button>
       </header>
       <section className="result-img">
-        {commander && (
+        {(!commander || isFetching) && <div className="result-img-child"></div>}
+        {commander && !isFetching && (
           <div className="result-img-child">
             <img src={commander.img} alt="" />
           </div>
         )}
-        {partner && (
+        {partner && !isFetching && (
           <div className="result-img-child">
             <img src={partner.img} alt="" />
           </div>
         )}
       </section>
+      <button
+        className="button twitter"
+        disabled={!commander || isFetching}
+        onClick={() => fetchCommander()}
+      >
+        結果をつぶやく
+      </button>
     </div>
   );
 };
